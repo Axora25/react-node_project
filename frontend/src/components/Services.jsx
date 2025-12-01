@@ -17,7 +17,7 @@ const services = [
     id: 'weather',
     title: 'Weather Forecast',
     description:
-      'Stay ahead of changing conditions with hyperlocal forecasts that help you plan irrigation, sowing, and harvest.',
+      'Stay ahead of changing conditions with hyperlocal forecasts that help you plan irrigation and harvest.',
     image: weatherImg,
     link: '#weather-forecast',
   },
@@ -41,11 +41,11 @@ const services = [
 
 export default function Services() {
   return (
-    <section className="flex flex-col items-center px-4 md:px-0 bg-gray-950 text-white pb-16">
+    <section className="flex flex-col items-center px-4 md:px-0 bg-gray-950 text-white pb-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full font-monospace">
         {services.map((service) => (
           <a key={service.id} href={service.link} className="block">
-            <div className="rounded-xl border-2 border-gray-800 bg-gray-900/60 min-h-[280px] flex flex-col hover:scale-105 transition-transform duration-300 ease-in-out">
+            <div className="rounded-xl border-2 bg-gray-800 border-gray-900/60 min-h-[280px] flex flex-col hover:scale-105 transition-transform duration-300 ease-in-out">
               <img
                 src={service.image}
                 alt={service.title}
@@ -53,7 +53,7 @@ export default function Services() {
               />
               <div className="p-4 flex flex-col flex-grow text-left">
                 <h3 className="text-lg font-bold mb-2">{service.title}</h3>
-                <p className="text-sm text-gray-300">{service.description}</p>
+                <p className="text-sm text-gray-400">{service.description}</p>
               </div>
             </div>
           </a>

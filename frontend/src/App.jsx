@@ -11,7 +11,7 @@ function App() {
       <Navbar />
       <Hero />
       <section className="flex flex-col items-center px-4 md:px-0 bg-gray-950 text-white py-8">
-        <div className="flex flex-col items-center mt-10 mb-8 text-center max-w-4xl font-monospace">
+        <div className="flex flex-col items-center mt-10 mb-8 text-center max-w-5xl font-monospace">
           <h1 className="text-4xl font-bold mb-4">Our Services</h1>
           <p className="text-sm md:text-base text-gray-400 leading-relaxed ">
             Discover our range of innovative services designed to empower farmers and promote sustainable agriculture.
