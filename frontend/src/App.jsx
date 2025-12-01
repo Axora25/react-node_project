@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
+import PartnerBenefits from './components/PartnerBenefits'
 import './App.css'
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         </div>
       </section>
       <Services />
-      
+      <PartnerBenefits />
     </div>
   )
 }
