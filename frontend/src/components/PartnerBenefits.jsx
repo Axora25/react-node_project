@@ -6,7 +6,7 @@ import feedbackImg from '../assets/images/feed.webp'
 export default function PartnerBenefits() {
   return (
     <section className="bg-gray-950 text-white px-1 md:px-0 py-1">
-      <div className="partner bg-gray-900/70 px-4 py-5 mt-2 max-w-4xl mx-auto rounded-2xl text-center font-monospace ">
+      <div className="partner bg-gray-800 px-3 py-3 mt-2 max-w-4xl mx-auto rounded-2xl text-center font-monospace ">
         <h1 className="text-3xl p-2 font-bold">
           Benefits <span className="font-normal">to be partnered with us</span>
         </h1>
@@ -15,31 +15,37 @@ export default function PartnerBenefits() {
           Partner with us to access advanced agricultural technologies and expert support.
         </p>
 
-        <div className="flex justify-center gap-8 md:gap-12 flex-wrap">
+        <div className="flex justify-center gap-8 md:gap-12 flex-wrap items-end">
           {/* Farm Tech */}
           <a
             href="#farm-tech"
-            className="bg-gray-900/80 p-6 rounded-xl flex flex-col items-center w-56 transform transition-transform hover:scale-110 "
+            className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"
           >
-            <img src={farmTechImg} alt="Farm Tech" className="h-32 w-32 mb-2" />
+            <div className="h-32 w-32 mb-4 flex items-center justify-center">
+              <img src={farmTechImg} alt="Farm Tech" className="h-32 w-32 object-contain" />
+            </div>
             <p className="text-lg font-medium">Farm Tech</p>
           </a>
 
           {/* Support */}
           <a
             href="#support"
-            className="bg-gray-900/80 p-6 rounded-xl flex flex-col items-center w-56 transform transition-transform hover:scale-110 "
+            className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"
           >
-            <img src={supportImg} alt="Support" className="h-32 w-32 mb-4" />
+            <div className="h-32 w-32 mb-4 flex items-center justify-center">
+              <img src={supportImg} alt="Support" className="h-32 w-32 object-contain" />
+            </div>
             <p className="text-lg font-medium">Support</p>
           </a>
 
           {/* Feedback */}
           <a
             href="#feedback"
-        className="bg-gray-900/80 p-6 rounded-xl flex flex-col items-center w-56 transform transition-transform hover:scale-110 "
+            className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"
           >
-            <img src={feedbackImg} alt="Feedback" className="h-32 w-32 mb-4 rounded-full object-cover" />
+            <div className="h-32 w-32 mb-4 flex items-center justify-center">
+              <img src={feedbackImg} alt="Feedback" className="h-32 w-32 rounded-full object-cover" />
+            </div>
             <p className="text-lg font-medium">Feedback</p>
           </a>
         </div>
