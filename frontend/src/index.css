@@ -1,6 +1,6 @@
 /* Bootstrap CSS - @import must come first */
 @import 'bootstrap/dist/css/bootstrap.min.css';
-
+@import "tailwindcss";
 /* Tailwind CSS */
 @tailwind base;
 @tailwind components;
