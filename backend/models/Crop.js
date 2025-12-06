@@ -10,18 +10,7 @@ const cropSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  soilType: {
-    type: [String], // Array of soil types (e.g., ["clay", "sandy", "loamy"])
-    required: true
-  },
-  climate: {
-    type: [String], // Array of climate conditions (e.g., ["tropical", "temperate"])
-    required: true
-  },
-  season: {
-    type: [String], // Array of seasons (e.g., ["summer", "winter", "monsoon"])
-    required: true
-  },
+  
   waterRequirement: {
     type: String,
     enum: ['low', 'medium', 'high'],
@@ -42,6 +31,35 @@ const cropSchema = new mongoose.Schema({
   image: {
     type: String, // URL or path to image
     default: ''
+  },
+  // Numerical fields for distance-based recommendation (optional)
+  nitrogen: {
+    type: Number,
+    default: null
+  },
+  phosphorus: {
+    type: Number,
+    default: null
+  },
+  potassium: {
+    type: Number,
+    default: null
+  },
+  humidity: {
+    type: Number,
+    default: null
+  },
+  rainfall: {
+    type: Number,
+    default: null
+  },
+  temperature: {
+    type: Number,
+    default: null
+  },
+  ph: {
+    type: Number,
+    default: null
   }
 }, {
   timestamps: true

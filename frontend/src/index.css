@@ -1,6 +1,6 @@
 /* Bootstrap CSS - @import must come first */
 @import 'bootstrap/dist/css/bootstrap.min.css';
-@import "tailwindcss";
+
 /* Tailwind CSS */
 @tailwind base;
 @tailwind components;
@@ -11,7 +11,7 @@ body {
   margin: 0;
   font-family: 'Monospace', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco',
     'Consolas', 'Liberation Mono', 'Courier New', monospace;
-  background-color: #020617; /* Tailwind bg-gray-950 */
+  background-color: #020617; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

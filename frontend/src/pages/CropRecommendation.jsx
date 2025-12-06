@@ -1,231 +1,275 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import seedsImage from '../assets/images/seeds.jpg';
 
 export default function CropRecommendation() {
-  const [searchCriteria, setSearchCriteria] = useState({
-    soilType: '',
-    climate: '',
-    season: '',
-    waterRequirement: '',
+  const [formData, setFormData] = useState({
+    nitrogen: '',
+    phosphorus: '',
+    potassium: '',
     temperature: '',
-    ph: ''
+    humidity: '',
+    ph: '',
+    rainfall: ''
   });
-  const [results, setResults] = useState([]);
+  const [recommendedCrop, setRecommendedCrop] = useState('');
   const [loading, setLoading] = useState(false);
-  const [allCrops, setAllCrops] = useState([]);
+  const resultRef = useRef(null);
 
-  // Fetch all crops on component mount
   useEffect(() => {
-    fetchCrops();
+    // Remove no-scroll class on mount
+    document.body.classList.remove('no-scroll');
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, []);
 
-  const fetchCrops = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/crops');
-      const data = await response.json();
-      setAllCrops(data);
-    } catch (error) {
-      console.error('Error fetching crops:', error);
-    }
-  };
-
   const handleChange = (e) => {
-    setSearchCriteria({
-      ...searchCriteria,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setRecommendedCrop('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/crops/search', {
+      const response = await fetch('http://localhost:5000/api/crops/recommend', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(searchCriteria)
+        body: JSON.stringify({
+          nitrogen: parseFloat(formData.nitrogen) || 0,
+          phosphorus: parseFloat(formData.phosphorus) || 0,
+          potassium: parseFloat(formData.potassium) || 0,
+          temperature: parseFloat(formData.temperature) || 0,
+          humidity: parseFloat(formData.humidity) || 0,
+          ph: parseFloat(formData.ph) || 0,
+          rainfall: parseFloat(formData.rainfall) || 0
+        })
       });
 
       const data = await response.json();
-      setResults(data.crops || []);
+      if (data.crop) {
+        setRecommendedCrop(data.crop);
+        // Scroll to result after a small delay
+        setTimeout(() => {
+          if (resultRef.current) {
+            resultRef.current.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 200);
+      } else {
+        setRecommendedCrop('No crop found');
+      }
     } catch (error) {
-      console.error('Error searching crops:', error);
-      alert('Error searching crops. Please try again.');
+      console.error('Error getting recommendation:', error);
+      alert('Error getting crop recommendation. Please try again.');
+      setRecommendedCrop('No crop found');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleReset = () => {
-    setSearchCriteria({
-      soilType: '',
-      climate: '',
-      season: '',
-      waterRequirement: '',
-      temperature: '',
-      ph: ''
-    });
-    setResults([]);
-  };
+  // Get the image URL - Vite processes imports and returns a URL
+  const backgroundImageUrl = typeof seedsImage === 'string' ? seedsImage : seedsImage?.default || seedsImage;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white py-12 px-4 font-monospace">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-4">
-          Crop <span className="text-green-500">Recommendation</span>
-        </h1>
-        <p className="text-center text-gray-400 mb-8 max-w-2xl mx-auto">
-          Get personalized crop recommendations based on your soil type, climate, and other conditions.
-        </p>
+    <div className="font-mono bg-gray-950 text-white relative h-screen overflow-hidden">
+      <div 
+        className="bg-crop-recommendation h-screen flex flex-col items-center justify-center relative"
+        style={{
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          backgroundRepeat: 'no-repeat',
+          textAlign: 'center',
+          position: 'relative'
+        }}
+      >
+        <div 
+          className="absolute top-0 left-0 w-full h-full z-0"
+          style={{
+           
+          }}
+        ></div>
+        
+        <div className="content-container container mx-auto px-3 flex flex-col items-center justify-center w-full text-center relative z-10 h-full overflow-y-auto py-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white py-1 text-animate">
+            Crop Recommendation
+          </h1>
 
-        {/* Search Form */}
-        <div className="bg-gray-800 rounded-2xl p-6 mb-8">
-          <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-300 mb-2">Soil Type</label>
-              <select
-                name="soilType"
-                value={searchCriteria.soilType}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-500"
-              >
-                <option value="">Select Soil Type</option>
-                <option value="clay">Clay</option>
-                <option value="sandy">Sandy</option>
-                <option value="loamy">Loamy</option>
-                <option value="silty">Silty</option>
-              </select>
-            </div>
+          <div className="w-full max-w-4xl mx-auto bg-opacity-70 p-4 md:p-6 rounded-xl">
+            <h3 className="text-lg md:text-xl font-semibold text-white text-center text-animate mb-1">
+              Tell us about your agricultural field
+            </h3>
+            <h3 className="text-lg md:text-xl font-semibold mb-4 py-1 text-white text-center text-animate">
+              Please enter the following soil and environmental details
+            </h3>
 
-            <div>
-              <label className="block text-gray-300 mb-2">Climate</label>
-              <select
-                name="climate"
-                value={searchCriteria.climate}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-500"
-              >
-                <option value="">Select Climate</option>
-                <option value="tropical">Tropical</option>
-                <option value="subtropical">Subtropical</option>
-                <option value="temperate">Temperate</option>
-                <option value="arid">Arid</option>
-              </select>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-4 md:space-y-6">
+                <div className="flex flex-row justify-center gap-2 md:gap-3 flex-nowrap md:flex-wrap">
+                  <div className="min-w-[140px] md:min-w-[180px] flex-shrink-0">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      Nitrogen (Kg)
+                    </label>
+                    <input
+                      type="number"
+                      name="nitrogen"
+                      value={formData.nitrogen}
+                      onChange={handleChange}
+                      placeholder="90"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
+                  </div>
 
-            <div>
-              <label className="block text-gray-300 mb-2">Season</label>
-              <select
-                name="season"
-                value={searchCriteria.season}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-500"
-              >
-                <option value="">Select Season</option>
-                <option value="summer">Summer</option>
-                <option value="winter">Winter</option>
-                <option value="monsoon">Monsoon</option>
-                <option value="spring">Spring</option>
-              </select>
-            </div>
+                  <div className="min-w-[140px] md:min-w-[180px] flex-shrink-0">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      Phosphorous (Kg)
+                    </label>
+                    <input
+                      type="number"
+                      name="phosphorus"
+                      value={formData.phosphorus}
+                      onChange={handleChange}
+                      placeholder="42"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
+                  </div>
 
-            <div>
-              <label className="block text-gray-300 mb-2">Water Requirement</label>
-              <select
-                name="waterRequirement"
-                value={searchCriteria.waterRequirement}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-500"
-              >
-                <option value="">Select Water Requirement</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
+                  <div className="min-w-[140px] md:min-w-[180px] flex-shrink-0">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      Potassium (Kg)
+                    </label>
+                    <input
+                      type="number"
+                      name="potassium"
+                      value={formData.potassium}
+                      onChange={handleChange}
+                      placeholder="43"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
+                  </div>
 
-            <div>
-              <label className="block text-gray-300 mb-2">Temperature (°C)</label>
-              <input
-                type="number"
-                name="temperature"
-                value={searchCriteria.temperature}
-                onChange={handleChange}
-                placeholder="e.g., 25"
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-300 mb-2">Soil pH</label>
-              <input
-                type="number"
-                name="ph"
-                value={searchCriteria.ph}
-                onChange={handleChange}
-                step="0.1"
-                min="0"
-                max="14"
-                placeholder="e.g., 6.5"
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-500"
-              />
-            </div>
-
-            <div className="md:col-span-2 flex gap-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-lime-500 hover:bg-lime-600 text-white font-semibold py-3 rounded-lg transition-colors duration-300 disabled:opacity-50"
-              >
-                {loading ? 'Searching...' : 'Search Crops'}
-              </button>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
-              >
-                Reset
-              </button>
-            </div>
-          </form>
-        </div>
-
-        {/* Results */}
-        {results.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">
-              Found {results.length} Crop{results.length !== 1 ? 's' : ''}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {results.map((crop) => (
-                <div key={crop._id} className="bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
-                  <h3 className="text-xl font-bold mb-2 text-green-400">{crop.name}</h3>
-                  <p className="text-gray-300 mb-4 text-sm">{crop.description}</p>
-                  <div className="space-y-2 text-sm">
-                    <p><span className="text-gray-400">Soil:</span> {crop.soilType.join(', ')}</p>
-                    <p><span className="text-gray-400">Climate:</span> {crop.climate.join(', ')}</p>
-                    <p><span className="text-gray-400">Season:</span> {crop.season.join(', ')}</p>
-                    <p><span className="text-gray-400">Water:</span> {crop.waterRequirement}</p>
-                    <p><span className="text-gray-400">Temperature:</span> {crop.temperatureRange.min}°C - {crop.temperatureRange.max}°C</p>
-                    <p><span className="text-gray-400">pH:</span> {crop.phRange.min} - {crop.phRange.max}</p>
-                    <p><span className="text-gray-400">Yield:</span> {crop.yield}</p>
+                  <div className="min-w-[140px] md:min-w-[180px] flex-shrink-0">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      Temperature (°C)
+                    </label>
+                    <input
+                      type="number"
+                      name="temperature"
+                      value={formData.temperature}
+                      onChange={handleChange}
+                      placeholder="21"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {results.length === 0 && !loading && (
-          <div className="text-center text-gray-400 py-12">
-            {Object.values(searchCriteria).some(val => val) 
-              ? 'No crops found matching your criteria. Try different search parameters.'
-              : 'Enter search criteria above to find recommended crops.'}
+                <div className="flex flex-row justify-center gap-2 md:gap-3 flex-wrap">
+                  <div className="min-w-[140px] md:min-w-[180px]">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      Humidity (%)
+                    </label>
+                    <input
+                      type="number"
+                      name="humidity"
+                      value={formData.humidity}
+                      onChange={handleChange}
+                      placeholder="82"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
+                  </div>
+
+                  <div className="min-w-[140px] md:min-w-[180px]">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      pH Level
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      name="ph"
+                      value={formData.ph}
+                      onChange={handleChange}
+                      placeholder="6.5"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
+                  </div>
+
+                  <div className="min-w-[140px] md:min-w-[180px]">
+                    <label className="block text-white mb-1 md:mb-2 text-center text-sm md:text-base">
+                      Rainfall (mm)
+                    </label>
+                    <input
+                      type="number"
+                      name="rainfall"
+                      value={formData.rainfall}
+                      onChange={handleChange}
+                      placeholder="203"
+                      className="w-full bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-effect hover:scale-105 focus:outline-none focus:ring-2 focus:ring-lime-500 text-sm md:text-base"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center mt-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-lime-500 hover:bg-lime-600 text-white font-bold py-2 px-6 rounded-2xl mt-4 mb-2 shadow-lg transition-all duration-300 ease-in-out text-base md:text-lg hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Getting Recommendations...' : 'Get Crop Recommendations'}
+                </button>
+              </div>
+            </form>
+
+            {recommendedCrop && (
+              <div
+                ref={resultRef}
+                id="cropResult"
+                className="mt-4 md:mt-6 bg-green-800 text-white p-3 md:p-4 rounded-lg text-lg md:text-xl font-semibold"
+              >
+                Recommended Crop:{' '}
+                <span className="text-lime-300">{recommendedCrop}</span>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
+
+      <style>{`
+        .bg-crop-recommendation::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(6, 5, 5, 0.584);
+          position: fixed;
+          z-index: 0;
+        }
+        .hover-effect:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .transition-effect {
+          transition: all 0.3s ease;
+        }
+        .text-animate {
+          animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

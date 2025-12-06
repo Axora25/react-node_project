@@ -28,7 +28,7 @@ const services = [
     description:
       'Connect with an AI assistant that helps you detect and treat pests or diseases early.',
     image: pestImg,
-    link: '#pest-management',
+    link: '/pest-management',
   },
   {
     id: 'subsidies',

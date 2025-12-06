@@ -7,6 +7,7 @@ import PartnerBenefits from './components/PartnerBenefits'
 import Login from './pages/Login'
 import CropRecommendation from './pages/CropRecommendation'
 import Weather from './pages/Weather'
+import PestManagement from './pages/PestManagement'
 import './App.css'
 
 function Home() {
@@ -68,6 +69,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/crop-recommendation" element={<CropRecommendation />} />
         <Route path="/weather" element={<Weather />} />
+        <Route path="/pest-management" element={<PestManagement />} />
       </Routes>
     </div>
   )
