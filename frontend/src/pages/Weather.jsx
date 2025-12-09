@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import weatherBg from '../assets/images/weather.webp';
 
 export default function Weather() {

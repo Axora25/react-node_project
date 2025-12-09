@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import { Link } from 'react-router-dom'
 import cropImg from '../assets/images/crop_rec.png'
 import weatherImg from '../assets/images/3ZRAI3Y3EBFF7NGTSBCIS7EGRI.avif'

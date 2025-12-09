@@ -1,14 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import aphidsImg from '../assets/images/aphids.jpeg';
+import cutwormsImg from '../assets/images/Cutworms.jpeg';
+import powderyMildewImg from '../assets/images/powdery-mildew.jpg';
+import armywormImg from '../assets/images/armyworm.jpeg';
+import mitesImg from '../assets/images/Mites.webp';
+import whitefliesImg from '../assets/images/Whiteflies1.jpg';
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent';
+// Use backend proxy instead of calling Gemini API directly
+const GEMINI_API_URL = 'http://localhost:5000/api/gemini';
 
 // Pest data
 const pestData = [
   {
     id: 1,
     name: 'Aphids',
-    image: '/src/assets/images/aphids.jpeg',
+    image: aphidsImg,
     symptoms: 'Curled leaves, sticky residue (honeydew)',
     affectedCrops: 'Vegetables, fruits, grains',
     prevention: 'Neem oil spray, natural predators like ladybugs'
@@ -16,7 +22,7 @@ const pestData = [
   {
     id: 2,
     name: 'Cutworms',
-    image: '/src/assets/images/cutworms.jpeg',
+    image: cutwormsImg,
     symptoms: 'Damaged stems, missing seedlings',
     affectedCrops: 'Corn, tomato, lettuce',
     prevention: 'Barriers, nighttime inspection'
@@ -24,7 +30,7 @@ const pestData = [
   {
     id: 3,
     name: 'Powdery Mildew',
-    image: '/src/assets/images/powdery-mildew.jpg',
+    image: powderyMildewImg,
     symptoms: 'White powder on leaves',
     affectedCrops: 'Squash, grapes, cereals',
     prevention: 'Proper spacing, sulfur-based fungicides'
@@ -32,7 +38,7 @@ const pestData = [
   {
     id: 4,
     name: 'Armyworm',
-    image: '/src/assets/images/armyworm.jpeg',
+    image: armywormImg,
     symptoms: 'Ragged leaves, chewed stems',
     affectedCrops: 'Rice, maize, wheat',
     prevention: 'Handpicking, pheromone traps, biological control'
@@ -40,7 +46,7 @@ const pestData = [
   {
     id: 5,
     name: 'Spider Mites',
-    image: '/src/assets/images/mites.webp',
+    image: mitesImg,
     symptoms: 'Fine webbing, yellow speckled leaves',
     affectedCrops: 'Tomatoes, beans, strawberries',
     prevention: 'Regular misting, predatory mites, insecticidal soap'
@@ -48,7 +54,7 @@ const pestData = [
   {
     id: 6,
     name: 'Whiteflies',
-    image: '/src/assets/images/whiteflies1.jpg',
+    image: whitefliesImg,
     symptoms: 'White insects flying when disturbed, yellow leaves',
     affectedCrops: 'Tomatoes, peppers, cucumbers',
     prevention: 'Yellow sticky traps, neem oil, beneficial insects'
@@ -123,46 +129,41 @@ export default function PestManagement() {
     setIsLoading(true);
 
     try {
-      let prompt = `You are an agricultural pest and disease expert. A farmer is asking about: "${msg}". 
+      let response;
 
-Please provide helpful, practical advice about pest identification, symptoms, prevention, and treatment methods. 
-
-Keep your response concise, informative, and focused on agricultural solutions. 
-
-If the query is not related to agriculture, politely redirect them to ask about crop pests or diseases.
-
-Format your response in a clear, structured way with bullet points or short paragraphs.`;
-
+      // If there's a selected file, send as multipart/form-data
       if (selectedFile) {
-        prompt += `\n\nThe user has also uploaded an image. Please mention that you can see the image and provide analysis based on their description.`;
+        const formData = new FormData();
+        formData.append('message', msg);
+        formData.append('file', selectedFile);
+
+        response = await fetch(`${GEMINI_API_URL}/chat`, {
+          method: 'POST',
+          body: formData,
+        });
+      } else {
+        response = await fetch(`${GEMINI_API_URL}/chat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: msg }),
+        });
       }
 
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
-            }]
-          }]
-        })
-      });
-
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('API Error Response:', errorData);
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
 
-      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-        const aiResponse = data.candidates[0].content.parts[0].text;
+      if (data.response) {
         const botMessage = {
           id: Date.now() + 2,
           type: 'bot',
-          content: aiResponse
+          content: data.response
         };
         setMessages(prev => [...prev, botMessage]);
       } else {
@@ -173,12 +174,18 @@ Format your response in a clear, structured way with bullet points or short para
       const errorMessage = {
         id: Date.now() + 2,
         type: 'error',
-        content: `Sorry, I'm having trouble connecting to the AI service. Error: ${error.message}`
+        content: `Sorry, I'm having trouble connecting to the AI service. Error: ${error.message}. Please make sure the backend server is running and the API key is configured in the backend .env file.`
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
       setSelectedFile(null);
+      // clear file input element if present
+      try {
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      } catch (e) {
+        // ignore
+      }
     }
   };
 
@@ -236,22 +243,21 @@ Continue for 3-4 weeks. Include:
 
 Keep it simple and easy to follow. Don't use tables, just use bullet points and clear dates.`;
 
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(`${GEMINI_API_URL}/spray-schedule`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
-            }]
-          }]
+          chatHistory: chatHistory,
+          prompt: prompt
         })
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('API Error Response:', errorData);
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -259,12 +265,11 @@ Keep it simple and easy to follow. Don't use tables, just use bullet points and 
       // Remove loading message
       setMessages(prev => prev.filter(m => !m.isLoading));
 
-      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-        const scheduleResponse = data.candidates[0].content.parts[0].text;
+      if (data.response) {
         const scheduleMessage = {
           id: Date.now() + 1,
           type: 'bot',
-          content: `🌱 Personalized Spray Schedule\n\n${scheduleResponse}\n\n💡 Tip: Always follow safety guidelines and wear protective equipment when applying pesticides.`,
+          content: `🌱 Personalized Spray Schedule\n\n${data.response}\n\n💡 Tip: Always follow safety guidelines and wear protective equipment when applying pesticides.`,
           isSchedule: true
         };
         setMessages(prev => [...prev, scheduleMessage]);
@@ -332,7 +337,7 @@ Keep it simple and easy to follow. Don't use tables, just use bullet points and 
         <div className="flex flex-col md:flex-row bg-gray-950">
           {/* Left: Info Section */}
           <section className="md:w-1/3 p-3 md:p-4 bg-gray-950 flex flex-col" style={{ height: '90vh' }}>
-            <div className="bg-gray-800 rounded-xl shadow-lg p-4 flex flex-col h-full border border-gray-700">
+            <div className="bg-gray-800 rounded-xl shadow-lg p-3 flex flex-col h-full border border-gray-700">
               <div className="overflow-y-auto flex-1 h-full pr-2 custom-scrollbar">
                 <h1 className="text-2xl md:text-3xl font-bold mb-2 text-blue-400 top-0 bg-inherit py-2 z-10">
                   Pest & Disease Control
@@ -341,15 +346,17 @@ Keep it simple and easy to follow. Don't use tables, just use bullet points and 
                   Learn about common crop pests, their signs, and how to control them using safe and effective methods.
                 </p>
 
-                <div className="space-y-4 pb-4">
+                <div className="space-y-4 pb-3">
                   {pestData.map((pest) => (
                     <div
                       key={pest.id}
                       className="bg-gray-950 rounded-xl shadow-lg p-4 flex flex-col md:flex-row gap-3 items-center border border-gray-700"
                     >
-                      <div className="w-20 h-20 bg-gray-700 rounded-lg border border-gray-700 flex items-center justify-center">
-                        <span className="text-2xl">🐛</span>
-                      </div>
+                      <img
+                        src={pest.image}
+                        alt={pest.name}
+                        className="w-20 h-20 object-cover rounded-lg border border-gray-700"
+                      />
                       <div>
                         <h2 className="text-lg font-semibold mb-1 text-blue-400">{pest.name}</h2>
                         <div className="text-xs text-gray-400 mb-1">
@@ -472,9 +479,10 @@ Keep it simple and easy to follow. Don't use tables, just use bullet points and 
                       type="text"
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={handleKeyPress}
+                      onKeyDown={(e) => handleKeyPress(e)}
                       className="w-full px-3 py-2 pl-10 pr-10 rounded-lg border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                       placeholder="Describe the pest or disease issue..."
+                      disabled={isLoading}
                     />
                     <input
                       ref={fileInputRef}
