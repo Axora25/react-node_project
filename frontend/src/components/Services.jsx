@@ -36,7 +36,7 @@ const services = [
     description:
       'Explore and track agriculture subsidy programs so you never miss financial support opportunities.',
     image: subsidiesImg,
-    link: '#government-subsidies',
+    link: '/subsidies',
   },
 ]
 
