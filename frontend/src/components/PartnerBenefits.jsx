@@ -2,6 +2,7 @@ import React from 'react'
 import farmTechImg from '../assets/images/farm_tech.svg'
 import supportImg from '../assets/images/support.svg'
 import feedbackImg from '../assets/images/feed.webp'
+import { Link } from "react-router-dom";
 
 export default function PartnerBenefits() {
   return (
