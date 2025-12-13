@@ -44,6 +44,8 @@ export default function Navbar() {
         <a href="/" className="hover:text-white">Home</a>
         <a href="/subsidies" className="hover:text-white">Subsidies</a>
         <a href="/blog" className="hover:text-white">Blog</a>
+        <a href="/support" className="hover:text-white">Contact Us</a>
+
 
         {/* LOGIN / PROFILE LOGIC */}
         {loggedIn ? (
