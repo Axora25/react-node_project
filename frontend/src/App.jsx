@@ -10,6 +10,7 @@ import Weather from './pages/Weather'
 import PestManagement from './pages/PestManagement'
 import './App.css'
 import Subsidies from './pages/Subsidies';
+import Support from "./pages/Support";
 
 function Home() {
   return (
@@ -72,6 +73,7 @@ function App() {
         <Route path="/weather" element={<Weather />} />
         <Route path="/pest-management" element={<PestManagement />} />
         <Route path="/subsidies" element={<Subsidies />} />
+        <Route path="/support" element={<Support />} />
       </Routes>
     </div>
   )
