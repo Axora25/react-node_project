@@ -1,0 +1,95 @@
+/* Background and page layout */
+.support-container {
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  color: white;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.support-grid {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* Left and Right sections */
+.support-left,
+.support-right {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+/* Headings */
+.heading-green {
+  color: #7CFC00;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.section-title {
+  color: #7CFC00;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.faq-question {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Text */
+.text-normal {
+  line-height: 1.6;
+}
+
+.link-green {
+  color: #7CFC00;
+  cursor: pointer;
+}
+
+/* Form Styles */
+.support-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-box {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: #0a192f;
+  color: white;
+  border: 1px solid #444;
+  outline: none;
+}
+
+.input-box:focus {
+  border-color: #7CFC00;
+}
+
+/* Button */
+.send-btn {
+  margin-top: 10px;
+  padding: 12px;
+  background: #7CFC00;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background: #6ae000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+}
