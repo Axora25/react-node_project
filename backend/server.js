@@ -1,32 +1,24 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
-// From 2nd code
 import connectDB from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import subsidyRoutes from "./routes/subsidyRoutes.js";
-
-// From 1st code
+import supportRoutes from "./routes/supportRoutes.js";
 import geminiRoutes from "./routes/gemini.js";
 
 dotenv.config();
-
-// Connect to MongoDB (from 2nd code)
 connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware (same as 2nd + 1st combined)
+// Middleware 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ---------------------
-// Routes from 2nd code
-// ---------------------
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Backend API Server is running!',
@@ -49,31 +41,28 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// 2nd code API routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/crops', cropRoutes);
 app.use("/api/subsidy", subsidyRoutes);
+app.use("/api/support", supportRoutes);
 
-// ---------------------
-// ADDING 1st CODE (Gemini)
-// ---------------------
-
-// 1st code test route
+//  test route
 app.get("/gemini-test", (req, res) => {
   res.send("Gemini Backend is running");
 });
 
-// 1st code Gemini API route
+// Gemini API route
 app.use("/api/gemini", geminiRoutes);
 
 // ---------------------
-// Start Server (1st code style)
+// Start Server
 // ---------------------
 const server = app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
 
-// Error handling from 1st code
+// Error handling 
 server.on('error', (err) => {
   if (err && err.code === 'EADDRINUSE') {
     console.error(`Port ${PORT} is already in use. Another process is listening on this port.`);
