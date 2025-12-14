@@ -1,0 +1,338 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Agri-Tech Theme Palette */
+  --primary: #15803d; /* Deep Harvest Green */
+  --primary-hover: #14532d;
+  --accent: #16a34a;
+  
+  /* GLASS CHANGE: Highly transparent white for the "Blurred Grass" effect */
+  --bg-card: rgba(255, 255, 255, 0.15); 
+  
+  /* Inputs stay solid white for contrast/readability */
+  --bg-input: #ffffff; 
+  --bg-input-hover: #f9fafb;
+  
+  --text-main: #0f172a; /* Darker Slate for better contrast on glass */
+  --text-muted: #334155; /* Darker gray */
+  --text-light: #64748b;
+  
+  --border-light: rgba(255, 255, 255, 0.4); /* Glassy borders */
+  --border-focus: #16a34a;
+  
+  --radius-xl: 24px;
+  --radius-lg: 12px;
+  
+  --shadow-float: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Page Layout & Background */
+.blog-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  
+  /* The Farmer/Grass Background */
+  background-image: url("src/assets/images/imgF.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Reduced overlay to let the grass colors shine through more */
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1); /* Very light tint */
+  z-index: 0;
+}
+
+/* Card - "The Blurred Grass Glass" */
+.form-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 720px;
+  
+  background: var(--bg-card);
+  
+  /* This creates the "Blurred Grass" texture */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.5); /* Highlight top edge */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+  
+  border-radius: var(--radius-xl);
+  padding: 3.5rem;
+  animation: slideUp 0.7s var(--ease);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.form-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.header-badge {
+  display: inline-block;
+  background: #ffffff;
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.form-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a2e05; /* Very dark green/black for contrast */
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.03em;
+  /* Subtle shadow to lift text off the blurred grass */
+  text-shadow: 0 1px 1px rgba(255,255,255,0.4); 
+}
+
+.form-header p {
+  color: #1a2e05;
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1.75rem;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700; /* Bolder labels for glass bg */
+  color: #14532d; /* Dark Green */
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+
+/* Inputs & Textarea - Keep these solid or near-solid for readability */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1rem;
+  color: var(--text-main);
+  background: var(--bg-input); /* Solid white */
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s var(--ease);
+  font-family: inherit;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03); /* Subtle depth */
+}
+
+input[type="text"]:hover,
+textarea:hover {
+  background: var(--bg-input-hover);
+  border-color: #fff;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.25);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+/* Image Grid */
+.image-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.input-card-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3f6212; /* Mossy green */
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Custom File Upload */
+.file-upload-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 2px dashed rgba(22, 163, 74, 0.4); /* Green dash */
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  background: rgba(255,255,255,0.8); /* Semi-transparent white */
+  transition: all 0.2s var(--ease);
+  height: 52px;
+}
+
+.file-upload-box:hover {
+  background: #fff;
+  border-color: var(--primary);
+}
+
+.file-upload-box.active {
+  border-style: solid;
+  border-color: var(--primary);
+  background: #f0fdf4;
+  color: var(--primary);
+}
+
+.file-upload-box input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.upload-icon {
+  color: var(--primary);
+}
+.file-upload-box.active .upload-icon {
+  color: var(--primary);
+}
+
+.upload-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+/* Divider */
+.form-divider {
+  height: 1px;
+  /* Green gradient divider */
+  background: linear-gradient(to right, transparent, rgba(22, 163, 74, 0.5), transparent);
+  margin: 2.5rem 0;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 14px 28px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s var(--ease);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.5); /* Glassy button */
+  color: #14532d;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.btn-secondary:hover {
+  background: #ffffff;
+  color: #14532d;
+}
+
+/* Primary Button (Green) */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  min-width: 180px;
+  box-shadow: 0 4px 15px rgba(21, 128, 61, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(21, 128, 61, 0.5);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+/* Spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .form-wrapper {
+    padding: 2rem 1.5rem;
+    backdrop-filter: blur(15px); /* Less blur on mobile for performance */
+  }
+  .image-input-grid {
+    grid-template-columns: 1fr;
+  }
+  .button-group {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+  .btn-primary, .btn-secondary {
+    width: 100%;
+  }
+}
