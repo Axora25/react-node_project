@@ -1,12 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import connectDB from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import subsidyRoutes from "./routes/subsidyRoutes.js";
 import supportRoutes from "./routes/supportRoutes.js";
 import geminiRoutes from "./routes/gemini.js";
+import blogRoutes from "./routes/blogRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -14,10 +17,18 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// --- Helper for __dirname in ES Modules ---
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Middleware 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// --- Serve Static Files (Images) ---
+// This allows http://localhost:5000/uploads/filename.jpg to work
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
   res.json({ 
@@ -46,7 +57,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/crops', cropRoutes);
 app.use("/api/subsidy", subsidyRoutes);
 app.use("/api/support", supportRoutes);
-
+app.use("/api/blogs", blogRoutes);
 //  test route
 app.get("/gemini-test", (req, res) => {
   res.send("Gemini Backend is running");
