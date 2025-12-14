@@ -50,14 +50,14 @@ function Home() {
 
           <div className="flex justify-center items-center gap-4 mt-6 mb-2">
             <button
-              type="button"
-              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300"
+              onClick={() => navigate("/write-blog")}
+              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg"
             >
               Write Your Own Blog
             </button>
             <button
-              type="button"
-              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300"
+              onClick={() => navigate("/blogs")}
+              className="bg-lime-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
             >
               Read More Blogs
             </button>
