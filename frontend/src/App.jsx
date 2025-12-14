@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
@@ -11,8 +12,13 @@ import PestManagement from './pages/PestManagement'
 import './App.css'
 import Subsidies from './pages/Subsidies';
 import Support from "./pages/Support";
+import BlogForm from './components/BlogForm'
+import HomeBlogSection from './components/HomeBlogSection'
+import SingleBlog from "./pages/SingleBlog";
+import BlogList from './components/BlogList';
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <Hero />
@@ -58,6 +64,7 @@ function Home() {
           </div>
         </div>
       </section>
+      <HomeBlogSection/>
     </>
   )
 }
@@ -74,6 +81,9 @@ function App() {
         <Route path="/pest-management" element={<PestManagement />} />
         <Route path="/subsidies" element={<Subsidies />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/blog/:id" element={<SingleBlog />} />
+        <Route path="/blogs" element={<BlogList />} />
+        <Route path="/write-blog" element={<BlogForm />} />
       </Routes>
     </div>
   )
