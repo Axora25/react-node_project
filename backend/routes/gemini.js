@@ -81,4 +81,37 @@ router.post("/chat", upload.single('file'), async (req, res) => {
     }
   });
 
+  // Farm tech recommendations route
+  router.post('/farm-tech', async (req, res) => {
+    try {
+      const { farmSize, crops, challenges } = req.body || {};
+      const API_KEY = process.env.GEMINI_API_KEY;
+      if (!API_KEY) return res.status(500).json({ error: 'Missing API KEY' });
+
+      const userPrompt = `You are an agriculture expert. A farmer has a farm size of ${farmSize}, grows ${crops}, and is facing the following challenges: ${challenges}. Give concise, practical advice about best practices, pest prevention, and irrigation scheduling in 5-7 bullet points.`;
+
+      const response = await fetch(`${GEMINI_URL}?key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: userPrompt }] }]
+        })
+      });
+
+      if (!response.ok) {
+        const errText = await response.text().catch(() => 'Unable to read error body');
+        console.error('Gemini API returned error (farm-tech)', response.status, errText);
+        return res.status(response.status).json({ error: `Gemini API error: ${response.status} ${errText}` });
+      }
+
+      const data = await response.json();
+      return res.json({ 
+        response: data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response' 
+      });
+    } catch (err) {
+      console.error('Farm tech error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
 export default router;

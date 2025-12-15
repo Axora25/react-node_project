@@ -18,15 +18,15 @@ export default function PartnerBenefits() {
 
         <div className="flex justify-center gap-8 md:gap-12 flex-wrap items-end">
           {/* Farm Tech */}
-          <a
-            href="#farm-tech"
+          <Link
+            to="/farm-tech"
             className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"
           >
             <div className="h-32 w-32 mb-4 flex items-center justify-center">
               <img src={farmTechImg} alt="Farm Tech" className="h-32 w-32 object-contain" />
             </div>
             <p className="text-lg font-medium">Farm Tech</p>
-          </a>
+          </Link>
 
          {/* Support */}
           <Link

@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import CropRecommendation from './pages/CropRecommendation'
 import Weather from './pages/Weather'
 import PestManagement from './pages/PestManagement'
+import FarmTech from './pages/FarmTech'
 import './App.css'
 import Subsidies from './pages/Subsidies';
 import Support from "./pages/Support";
@@ -80,6 +81,7 @@ function App() {
         <Route path="/crop-recommendation" element={<CropRecommendation />} />
         <Route path="/weather" element={<Weather />} />
         <Route path="/pest-management" element={<PestManagement />} />
+        <Route path="/farm-tech" element={<FarmTech />} />
         <Route path="/subsidies" element={<Subsidies />} />
         <Route path="/support" element={<Support />} />
         <Route path="/blog/:id" element={<SingleBlog />} />
