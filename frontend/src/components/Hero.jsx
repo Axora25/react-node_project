@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import heroVideo from '../assets/images/8333971-uhd_4096_2160_25fps.mp4';
 
 const Hero = () => {
@@ -31,7 +31,7 @@ const Hero = () => {
             </h1>
 
             <p className="text-base md:text-xl mb-8 leading-relaxed font-bold text-gray-100 max-w-3xl">
-              Empowering farmers with smart, eco-friendly practices to boost crop yield while protecting the environment. Get personalized crop recommendations based on your soil and weather conditions. Together, let's grow more with less and build a greener tomorrow.
+              Empowering farmers with smart, eco-friendly practices to boost crop yield while protecting the environment. Get personalized crop recommendations based on your soil and weather conditions. Together, lets grow more with less and build a greener tomorrow.
             </p>
 
             <button className="bg-lime-500 hover:bg-green-600 text-white font-semibold px-10 py-3 rounded-2xl text-lg transition-colors duration-300 shadow-lg shadow-lime-500/30">

@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -10,6 +10,7 @@ import Weather from './pages/Weather'
 import PestManagement from './pages/PestManagement'
 import './App.css'
 import Subsidies from './pages/Subsidies';
+
 
 function Home() {
   return (
@@ -33,7 +34,7 @@ function Home() {
         <div className="max-w-7xl mx-auto px-4">
           {/* Heading */}
           <h2 className="text-4xl font-bold text-center mb-4 font-monospace">
-            People's Latest <span className="text-green-600">Blogs</span>
+            Peoples Latest <span className="text-green-600">Blogs</span>
           </h2>
           
           <p className="text-center mt-2 max-w-2xl mx-auto font-monospace">
