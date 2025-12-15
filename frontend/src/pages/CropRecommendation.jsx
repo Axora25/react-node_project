@@ -54,8 +54,14 @@ export default function CropRecommendation() {
         })
       });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
-      if (data.crop) {
+      
+      if (data.crop && data.crop !== 'No crop found') {
         setRecommendedCrop(data.crop);
         // Scroll to result after a small delay
         setTimeout(() => {
@@ -64,12 +70,11 @@ export default function CropRecommendation() {
           }
         }, 200);
       } else {
-        setRecommendedCrop('No crop found');
+        setRecommendedCrop(data.error || 'No crop found. Please ensure crops are added to the database.');
       }
     } catch (error) {
       console.error('Error getting recommendation:', error);
-      alert('Error getting crop recommendation. Please try again.');
-      setRecommendedCrop('No crop found');
+      setRecommendedCrop(`Error: ${error.message}. Please check if the backend server is running and crops are in the database.`);
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,6 @@
 import express from 'express';
 import Crop from '../models/Crop.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -44,11 +45,34 @@ router.post('/recommend', async (req, res) => {
   try {
     const { nitrogen, phosphorus, potassium, temperature, humidity, ph, rainfall } = req.body;
     
-    // Fetch all crops
-    const crops = await Crop.find();
+    // First, try to find crops stored in the data array structure (from MongoDB import)
+    let crops = [];
+    
+    // Get the database connection and query the collection directly (bypass schema)
+    const db = mongoose.connection.db;
+    const cropsCollection = db.collection('crops');
+    
+    // Check for document with type "table" and name "crop_data" (MongoDB import structure)
+    const dataDocument = await cropsCollection.findOne({ type: 'table', name: 'crop_data' });
+    
+    if (dataDocument && dataDocument.data && Array.isArray(dataDocument.data)) {
+      // Extract crops from the data array
+      crops = dataDocument.data;
+      console.log(`Found ${crops.length} crops in data array`);
+    } else {
+      // Fallback: try to find individual crop documents (not table type)
+      const individualCrops = await cropsCollection.find({ 
+        $or: [
+          { type: { $ne: 'table' } },
+          { type: { $exists: false } }
+        ]
+      }).toArray();
+      crops = individualCrops;
+      console.log(`Found ${crops.length} individual crop documents`);
+    }
     
     if (crops.length === 0) {
-      return res.json({ crop: 'No crop found' });
+      return res.json({ crop: 'No crop found', error: 'No crops available in database' });
     }
 
     const input = {
@@ -62,59 +86,98 @@ router.post('/recommend', async (req, res) => {
     };
 
     let minDiff = Number.MAX_SAFE_INTEGER;
-    let closestCrop = 'No crop found';
+    let closestCrop = null;
+    let fieldCount = 0; // Track how many fields we're comparing
 
     // Calculate distance for each crop
     for (const crop of crops) {
       let diff = 0;
+      let fieldsCompared = 0;
+      
+      // Get crop name - handle different field names (label, crop, name, etc.)
+      const cropName = crop.label || crop.crop || crop.name || crop.crop_name || 'Unknown Crop';
       
       // Calculate difference for each field
-      // Use crop.nitrogen if available, otherwise use temperature/ph as approximation
-      if (crop.nitrogen !== undefined) {
-        diff += Math.abs(input.nitrogen - (crop.nitrogen || 0));
-      }
-      if (crop.phosphorus !== undefined) {
-        diff += Math.abs(input.phosphorus - (crop.phosphorus || 0));
-      }
-      if (crop.potassium !== undefined) {
-        diff += Math.abs(input.potassium - (crop.potassium || 0));
+      // Handle different possible field names from the data array
+      const cropNitrogen = crop.N || crop.nitrogen || crop.Nitrogen;
+      const cropPhosphorus = crop.P || crop.phosphorus || crop.Phosphorus;
+      const cropPotassium = crop.K || crop.potassium || crop.Potassium;
+      const cropTemp = crop.temperature || crop.Temperature || crop.temp;
+      const cropHumidity = crop.humidity || crop.Humidity;
+      const cropPh = crop.ph || crop.pH || crop.PH;
+      const cropRainfall = crop.rainfall || crop.Rainfall || crop.rainfall_mm;
+      
+      // Check for null/undefined and use proper values
+      if (cropNitrogen != null && !isNaN(cropNitrogen)) {
+        diff += Math.abs(input.nitrogen - cropNitrogen);
+        fieldsCompared++;
       }
       
-      // Use temperature from temperatureRange if available
-      if (crop.temperatureRange) {
+      if (cropPhosphorus != null && !isNaN(cropPhosphorus)) {
+        diff += Math.abs(input.phosphorus - cropPhosphorus);
+        fieldsCompared++;
+      }
+      
+      if (cropPotassium != null && !isNaN(cropPotassium)) {
+        diff += Math.abs(input.potassium - cropPotassium);
+        fieldsCompared++;
+      }
+      
+      // Use temperature - check for temperatureRange first, then direct temperature
+      if (crop.temperatureRange && crop.temperatureRange.min != null && crop.temperatureRange.max != null) {
         const avgTemp = (crop.temperatureRange.min + crop.temperatureRange.max) / 2;
         diff += Math.abs(input.temperature - avgTemp);
-      } else if (crop.temperature !== undefined) {
-        diff += Math.abs(input.temperature - (crop.temperature || 0));
+        fieldsCompared++;
+      } else if (cropTemp != null && !isNaN(cropTemp)) {
+        diff += Math.abs(input.temperature - cropTemp);
+        fieldsCompared++;
       }
       
       // Use humidity if available
-      if (crop.humidity !== undefined) {
-        diff += Math.abs(input.humidity - (crop.humidity || 0));
+      if (cropHumidity != null && !isNaN(cropHumidity)) {
+        diff += Math.abs(input.humidity - cropHumidity);
+        fieldsCompared++;
       }
       
-      // Use pH from phRange if available
-      if (crop.phRange) {
+      // Use pH - check for phRange first, then direct ph
+      if (crop.phRange && crop.phRange.min != null && crop.phRange.max != null) {
         const avgPh = (crop.phRange.min + crop.phRange.max) / 2;
         diff += Math.abs(input.ph - avgPh);
-      } else if (crop.ph !== undefined) {
-        diff += Math.abs(input.ph - (crop.ph || 0));
+        fieldsCompared++;
+      } else if (cropPh != null && !isNaN(cropPh)) {
+        diff += Math.abs(input.ph - cropPh);
+        fieldsCompared++;
       }
       
       // Use rainfall if available
-      if (crop.rainfall !== undefined) {
-        diff += Math.abs(input.rainfall - (crop.rainfall || 0));
+      if (cropRainfall != null && !isNaN(cropRainfall)) {
+        diff += Math.abs(input.rainfall - cropRainfall);
+        fieldsCompared++;
       }
 
-      if (diff < minDiff) {
-        minDiff = diff;
-        closestCrop = crop.name;
+      // Normalize diff by number of fields compared to avoid bias
+      const normalizedDiff = fieldsCompared > 0 ? diff / fieldsCompared : Number.MAX_SAFE_INTEGER;
+
+      if (normalizedDiff < minDiff) {
+        minDiff = normalizedDiff;
+        closestCrop = cropName;
+        fieldCount = fieldsCompared;
       }
     }
 
+    // If no crop was found (shouldn't happen, but safety check)
+    if (!closestCrop) {
+      // Fallback: return first crop if algorithm fails
+      closestCrop = crops[0].name;
+      console.log('Algorithm failed, returning first crop as fallback');
+    }
+
+    console.log(`Recommended crop: ${closestCrop}, minDiff: ${minDiff}, fields compared: ${fieldCount}`);
+
     res.json({ crop: closestCrop });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error in crop recommendation:', error);
+    res.status(500).json({ message: error.message, error: error.stack });
   }
 });
 
@@ -195,4 +258,5 @@ router.delete('/:id', async (req, res) => {
 });
 
 export default router;
+
 
