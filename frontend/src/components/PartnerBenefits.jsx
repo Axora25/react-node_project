@@ -42,15 +42,19 @@ export default function PartnerBenefits() {
             </div>
             <p className="text-lg font-medium">Support</p>
           </Link>
-          <a
-            href="#feedback"
+          <Link
+            to="/feedback"
             className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"
           >
             <div className="h-32 w-32 mb-4 flex items-center justify-center">
-              <img src={feedbackImg} alt="Feedback" className="h-32 w-32 rounded-full object-cover" />
+              <img
+                src={feedbackImg}
+                alt="Feedback"
+                className="h-32 w-32 rounded-full object-cover"
+              />
             </div>
             <p className="text-lg font-medium">Feedback</p>
-          </a>
+          </Link>
         </div>
       </div>
     </section>
