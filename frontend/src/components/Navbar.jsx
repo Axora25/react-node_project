@@ -41,9 +41,11 @@ export default function Navbar() {
 
       {/* RIGHT: NAV LINKS */}
       <div className="text-gray-400 flex gap-6 items-center ml-auto text-[16px]">
-        <a href="/" className="hover:text-white">Home</a>
-        <a href="/subsidies" className="hover:text-white">Subsidies</a>
-        <a href="/blog" className="hover:text-white">Blog</a>
+        <Link to="/" className="hover:text-white">Home</Link>
+        <Link to="/subsidies" className="hover:text-white">Subsidies</Link>
+        <Link to="/blogs" className="hover:text-white">Blog</Link>
+        <Link to="/support" className="hover:text-white">Contact Us</Link>
+        
 
         {/* LOGIN / PROFILE LOGIC */}
         {loggedIn ? (

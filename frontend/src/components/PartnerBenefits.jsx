@@ -2,6 +2,7 @@ import React from 'react'
 import farmTechImg from '../assets/images/farm_tech.svg'
 import supportImg from '../assets/images/support.svg'
 import feedbackImg from '../assets/images/feed.webp'
+import { Link } from "react-router-dom";
 
 export default function PartnerBenefits() {
   return (
@@ -27,18 +28,20 @@ export default function PartnerBenefits() {
             <p className="text-lg font-medium">Farm Tech</p>
           </a>
 
-          {/* Support */}
-          <a
-            href="#support"
+         {/* Support */}
+          <Link
+            to="/support"
             className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"
           >
             <div className="h-32 w-32 mb-4 flex items-center justify-center">
-              <img src={supportImg} alt="Support" className="h-32 w-32 object-contain" />
+              <img
+                src={supportImg}
+                alt="Support"
+                className="h-32 w-32 object-contain"
+              />
             </div>
             <p className="text-lg font-medium">Support</p>
-          </a>
-
-          {/* Feedback */}
+          </Link>
           <a
             href="#feedback"
             className="flex flex-col items-center transform transition-transform hover:scale-110 cursor-pointer"

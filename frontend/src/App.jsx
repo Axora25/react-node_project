@@ -1,5 +1,6 @@
 // import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
@@ -10,9 +11,15 @@ import Weather from './pages/Weather'
 import PestManagement from './pages/PestManagement'
 import './App.css'
 import Subsidies from './pages/Subsidies';
+import Support from "./pages/Support";
+import BlogForm from './components/BlogForm'
+import HomeBlogSection from './components/HomeBlogSection'
+import SingleBlog from "./pages/SingleBlog";
+import BlogList from './components/BlogList';
 
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <Hero />
@@ -44,20 +51,21 @@ function Home() {
 
           <div className="flex justify-center items-center gap-4 mt-6 mb-2">
             <button
-              type="button"
-              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300"
+              onClick={() => navigate("/write-blog")}
+              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg"
             >
               Write Your Own Blog
             </button>
             <button
-              type="button"
-              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300"
+              onClick={() => navigate("/blogs")}
+              className="bg-lime-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
             >
               Read More Blogs
             </button>
           </div>
         </div>
       </section>
+      <HomeBlogSection/>
     </>
   )
 }
@@ -73,6 +81,10 @@ function App() {
         <Route path="/weather" element={<Weather />} />
         <Route path="/pest-management" element={<PestManagement />} />
         <Route path="/subsidies" element={<Subsidies />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/blog/:id" element={<SingleBlog />} />
+        <Route path="/blogs" element={<BlogList />} />
+        <Route path="/write-blog" element={<BlogForm />} />
       </Routes>
     </div>
   )
