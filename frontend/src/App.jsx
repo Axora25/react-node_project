@@ -17,6 +17,8 @@ import BlogForm from './components/BlogForm'
 import HomeBlogSection from './components/HomeBlogSection'
 import SingleBlog from "./pages/SingleBlog";
 import BlogList from './components/BlogList';
+import Feedback from './components/Feedback'
+import FeedbackTestimonials from "./components/FeedbackTestimonials";
 
 
 function Home() {
@@ -67,6 +69,7 @@ function Home() {
         </div>
       </section>
       <HomeBlogSection/>
+      <FeedbackTestimonials />
     </>
   )
 }
@@ -87,6 +90,7 @@ function App() {
         <Route path="/blog/:id" element={<SingleBlog />} />
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/write-blog" element={<BlogForm />} />
+         <Route path="/feedback" element={<Feedback />} />
       </Routes>
     </div>
   )
