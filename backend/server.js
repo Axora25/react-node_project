@@ -10,6 +10,7 @@ import subsidyRoutes from "./routes/subsidyRoutes.js";
 import supportRoutes from "./routes/supportRoutes.js";
 import geminiRoutes from "./routes/gemini.js";
 import blogRoutes from "./routes/blogRoutes.js";
+import feedbackRoutes from "./routes/feedbackRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -58,6 +59,7 @@ app.use('/api/crops', cropRoutes);
 app.use("/api/subsidy", subsidyRoutes);
 app.use("/api/support", supportRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/feedback", feedbackRoutes);
 //  test route
 app.get("/gemini-test", (req, res) => {
   res.send("Gemini Backend is running");
