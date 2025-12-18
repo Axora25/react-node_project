@@ -14,7 +14,7 @@ const generateToken = (userId) => {
 // Signup Route
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -26,7 +26,9 @@ router.post('/signup', async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password
+      password,
+      // Optional: allow role from client (schema enforces enum). If omitted, defaults to "farmer".
+      ...(role ? { role } : {})
     });
 
     // Generate token
