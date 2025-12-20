@@ -71,6 +71,7 @@ function Home() {
       </section>
       <HomeBlogSection/>
       {/* <FeedbackTestimonials /> */}
+      <Footer />
     </>
   )
 }
@@ -95,9 +96,9 @@ function App() {
           <Route path="/feedback" element={<Feedback />} />
         </Routes>
       </main>
-      <Footer />
+      {/* remove Footer here */}
     </div>
-  )
+  );
 }
 
 export default App
