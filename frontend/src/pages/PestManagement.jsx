@@ -480,7 +480,7 @@ Keep it simple and easy to follow. Don't use tables, just use bullet points and 
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyDown={(e) => handleKeyPress(e)}
-                      className="w-full px-3 py-2 pl-10 pr-10 rounded-lg border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                      className="w-full px-3 py-2 pl-10 pr-10 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                       placeholder="Describe the pest or disease issue..."
                       disabled={isLoading}
                     />

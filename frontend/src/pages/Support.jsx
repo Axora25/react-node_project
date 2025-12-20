@@ -2,7 +2,7 @@ import SupportForm from "../components/SupportForm";
 
 const Support = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="h-screen flex items-center justify-center overflow-hidden">
       <SupportForm />
     </div>
   );

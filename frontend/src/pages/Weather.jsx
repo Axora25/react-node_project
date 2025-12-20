@@ -121,7 +121,7 @@ export default function Weather() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white font-monospace relative">
+    <div className="h-screen bg-gray-950 text-white font-monospace relative overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
@@ -134,25 +134,25 @@ export default function Weather() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 py-6 overflow-y-auto">
         <div className="container mx-auto flex flex-col items-center w-full text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white text-shadow">
             Weather Predictions
           </h1>
 
           {/* Search Box */}
-          <div className="w-full max-w-md mb-10 px-5">
+          <div className="w-full max-w-2xl mb-10 px-5">
             <form onSubmit={handleSearch} className="flex w-full">
               <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Enter city name"
-                className="w-full px-6 py-3 rounded-l-2xl text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full px-7 py-3 rounded-l-full text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-lime-500"
               />
               <button
                 type="submit"
-                className="bg-lime-500 hover:bg-lime-600 px-8 py-3 rounded-r-2xl font-bold text-white text-lg transition-colors"
+                className="bg-lime-500 hover:bg-lime-600 px-10 py-3 rounded-r-full font-bold text-white text-lg transition-colors"
               >
                 Search
               </button>

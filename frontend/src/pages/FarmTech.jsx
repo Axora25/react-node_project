@@ -400,7 +400,7 @@ export default function FarmTech() {
                 <h3 className="font-bold text-xl text-white">Your Personalized Tech Recommendations</h3>
               </div>
               <p className="text-gray-400 mb-4">
-                Based on your farm's details, here are some technologies that could help.
+                Based on your farms details, here are some technologies that could help.
               </p>
               <div className="max-h-96 overflow-y-auto text-gray-200">
                 {isLoading ? (

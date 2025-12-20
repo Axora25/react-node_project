@@ -16,6 +16,30 @@ export default function Navbar() {
     }
   }, []);
 
+  // Listen for storage changes to update login state
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('token');
+      const userData = localStorage.getItem('user');
+      if (token && userData) {
+        setLoggedIn(true);
+        setUser(JSON.parse(userData));
+      } else {
+        setLoggedIn(false);
+        setUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    // Also check on focus in case of same-tab updates
+    window.addEventListener('focus', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleStorageChange);
+    };
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -50,7 +74,7 @@ export default function Navbar() {
         {/* LOGIN / PROFILE LOGIC */}
         {loggedIn ? (
           <>
-            <span className="text-white">Hi, {user?.name}</span>
+            {/* <span className="text-white">{user?.name}</span> */}
             <button onClick={handleLogout} className="hover:text-white">Logout</button>
           </>
         ) : (

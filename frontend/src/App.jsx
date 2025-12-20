@@ -19,6 +19,7 @@ import SingleBlog from "./pages/SingleBlog";
 import BlogList from './components/BlogList';
 import Feedback from './components/Feedback'
 import FeedbackTestimonials from "./components/FeedbackTestimonials";
+import Footer from './components/Footer';
 
 
 function Home() {
@@ -40,7 +41,7 @@ function Home() {
       <PartnerBenefits />
       
       {/* Blogs Section */}
-      <section id="blogs" className="bg-gray-950 text-white py-12">
+      <section id="blogs" className="bg-gray-950 text-white py-9">
         <div className="max-w-7xl mx-auto px-4">
           {/* Heading */}
           <h2 className="text-4xl font-bold text-center mb-4 font-monospace">
@@ -52,7 +53,7 @@ function Home() {
             Explore some of the latest articles for expert advice and practical tips.
           </p>
 
-          <div className="flex justify-center items-center gap-4 mt-6 mb-2">
+          <div className="flex justify-center items-center gap-4 mt-3 mb-2">
             <button
               onClick={() => navigate("/write-blog")}
               className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg"
@@ -69,29 +70,32 @@ function Home() {
         </div>
       </section>
       <HomeBlogSection/>
-      <FeedbackTestimonials />
+      {/* <FeedbackTestimonials /> */}
     </>
   )
 }
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/crop-recommendation" element={<CropRecommendation />} />
-        <Route path="/weather" element={<Weather />} />
-        <Route path="/pest-management" element={<PestManagement />} />
-        <Route path="/farm-tech" element={<FarmTech />} />
-        <Route path="/subsidies" element={<Subsidies />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/blog/:id" element={<SingleBlog />} />
-        <Route path="/blogs" element={<BlogList />} />
-        <Route path="/write-blog" element={<BlogForm />} />
-         <Route path="/feedback" element={<Feedback />} />
-      </Routes>
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/crop-recommendation" element={<CropRecommendation />} />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/pest-management" element={<PestManagement />} />
+          <Route path="/farm-tech" element={<FarmTech />} />
+          <Route path="/subsidies" element={<Subsidies />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/blog/:id" element={<SingleBlog />} />
+          <Route path="/blogs" element={<BlogList />} />
+          <Route path="/write-blog" element={<BlogForm />} />
+          <Route path="/feedback" element={<Feedback />} />
+        </Routes>
+      </main>
+      <Footer />
     </div>
   )
 }

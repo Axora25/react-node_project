@@ -27,11 +27,13 @@ const HomeBlogSection = () => {
   }
 
   return (
-   <div className="mt-10 px-4 md:px-8 container mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {blogs.map(blog => (
-          <BlogCard key={blog._id} blog={blog} />
-        ))}
+    <div className="mt-1 px-8 md:px-12 lg:px-16 xl:px-20 bg-gray-950 pb-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {blogs.map(blog => (
+            <BlogCard key={blog._id} blog={blog} />
+          ))}
+        </div>
       </div>
     </div>
   );

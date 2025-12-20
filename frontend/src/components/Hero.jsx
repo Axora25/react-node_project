@@ -1,7 +1,38 @@
 // import React from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import heroVideo from '../assets/images/8333971-uhd_4096_2160_25fps.mp4';
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+
+    // Listen for storage changes
+    const handleStorageChange = () => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleStorageChange);
+    };
+  }, []);
+
   return (
     <section className="relative w-full min-h-[85vh] flex items-center justify-center px-3 py-2 bg-gray-950 font-monospace">
       {/* Video Container with Rounded Corners */}
@@ -19,6 +50,7 @@ const Hero = () => {
         </video>
 
       
+
       
 
         {/* Content */}
@@ -34,9 +66,18 @@ const Hero = () => {
               Empowering farmers with smart, eco-friendly practices to boost crop yield while protecting the environment. Get personalized crop recommendations based on your soil and weather conditions. Together, lets grow more with less and build a greener tomorrow.
             </p>
 
-            <button className="bg-lime-500 hover:bg-green-600 text-white font-semibold px-10 py-3 rounded-2xl text-lg transition-colors duration-300 shadow-lg shadow-lime-500/30">
-              Get Started
-            </button>
+            {user ? (
+              <div className="text-white font-semibold text-lg bg-lime-500 hover:bg-green-600 text-white font-semibold px-10 py-3 rounded-2xl text-lg transition-colors duration-300 shadow-lg shadow-lime-500/30">
+                Hi, {user.name}
+              </div>
+            ) : (
+              <button 
+                onClick={() => navigate('/login')}
+                className="bg-lime-500 hover:bg-green-600 text-white font-semibold px-10 py-3 rounded-2xl text-lg transition-colors duration-300 shadow-lg shadow-lime-500/30"
+              >
+                Get Started
+              </button>
+            )}
           </div>
         </div>
       </div>
