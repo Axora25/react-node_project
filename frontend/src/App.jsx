@@ -1,5 +1,4 @@
 import React from 'react'
-import Snowfall from 'react-snowfall';
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
