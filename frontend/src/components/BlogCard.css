@@ -26,7 +26,7 @@
 .blog-card-body {
   background-color: #334155;
   padding: 22px;
-  min-height: 140px;
+  height: 160px; /* Fixed height for consistency */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -39,11 +39,12 @@
   font-weight: 600;
   line-height: 1.4;
 
-  /* clamp title like image */
+  /* Clamping title to 2 lines */
   display: -webkit-box;
-  /* -webkit-line-clamp: 2; */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* READ MORE */

@@ -9,12 +9,12 @@
   /* GLASS CHANGE: Swapped for solid dark backgrounds */
   --bg-card: #111827; 
   
-  /* Inputs updated to dark theme */
-  --bg-input: #1f2937; 
-  --bg-input-hover: #374151;
+  /* Inputs updated to high-contrast theme */
+  --bg-input: #ffffff; 
+  --bg-input-hover: #f9fafb;
   
-  --text-main: #f3f4f6; /* White/Light Gray */
-  --text-muted: #9ca3af;
+  --text-main: #111827; /* Dark Gray / Black for readability */
+  --text-muted: #4b5563;
   --text-light: #6b7280;
   
   --border-light: rgba(255, 255, 255, 0.1); 
@@ -192,7 +192,7 @@ textarea {
   border: 2px dashed rgba(22, 163, 74, 0.4); /* Green dash */
   border-radius: var(--radius-lg);
   cursor: pointer;
-  background: #111827; 
+  background: var(--bg-input); 
   transition: all 0.2s var(--ease);
   height: 52px;
 }
@@ -226,7 +226,7 @@ textarea {
 
 .upload-text {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: #1f2937; /* Dark text for light bg */
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;

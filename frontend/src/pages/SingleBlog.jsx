@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import API_URL from "../api";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const SingleBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        const res = await axios.get(`${API_URL}/api/blogs/${id}`);
         setBlog(res.data);
       } catch (err) {
         console.error(err);

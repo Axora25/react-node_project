@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import seedsImage from '../assets/images/seeds.jpg';
+import API_URL from '../api';
 
 export default function CropRecommendation() {
   const [formData, setFormData] = useState({
@@ -38,7 +39,7 @@ export default function CropRecommendation() {
     setRecommendedCrop('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/crops/recommend', {
+      const response = await fetch(`${API_URL}/api/crops/recommend`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

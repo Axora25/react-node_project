@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import TestimonialCard from "./TestimonialCard";
+import API_URL from "../api";
 
 export default function FeedbackTestimonials() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/feedback")
+    fetch(`${API_URL}/api/feedback`)
       .then((res) => res.json())
       .then((data) => setFeedbacks(data))
       .catch(() => setFeedbacks([]));

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
+import API_URL from "../api";
 import BlogCard from "./BlogCard";
 
 const BlogList = () => {
@@ -12,7 +13,7 @@ const BlogList = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/blogs");
+        const res = await axios.get(`${API_URL}/api/blogs`);
         setBlogs(res.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);

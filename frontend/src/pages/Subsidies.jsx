@@ -1,5 +1,6 @@
-import  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../api';
 
 const Subsidies = () => {
   const [subsidies, setSubsidies] = useState([]);
@@ -19,7 +20,7 @@ const Subsidies = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/subsidy/categories');
+        const res = await axios.get(`${API_URL}/api/subsidy/categories`);
         if (res.data.data) {
           setCategories(res.data.data);
         }
@@ -34,7 +35,7 @@ const Subsidies = () => {
     const fetchSubsidies = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('http://localhost:5000/api/subsidy/list', {
+        const res = await axios.get(`${API_URL}/api/subsidy/list`, {
           params: {
             search: searchTerm,
             category: selectedCategory === 'All Categories' ? '' : selectedCategory

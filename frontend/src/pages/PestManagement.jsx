@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import API_URL from '../api';
 import aphidsImg from '../assets/images/aphids.jpeg';
 import cutwormsImg from '../assets/images/Cutworms.jpeg';
 import powderyMildewImg from '../assets/images/powdery-mildew.jpg';
@@ -7,7 +8,7 @@ import mitesImg from '../assets/images/Mites.webp';
 import whitefliesImg from '../assets/images/Whiteflies1.jpg';
 
 // Use backend proxy instead of calling Gemini API directly
-const GEMINI_API_URL = 'http://localhost:5000/api/gemini';
+const GEMINI_API_URL = `${API_URL}/api/gemini`;
 
 // Pest data
 const pestData = [
@@ -480,7 +481,7 @@ Keep it simple and easy to follow. Don't use tables, just use bullet points and 
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyDown={(e) => handleKeyPress(e)}
-                      className="w-full px-3 py-2 pl-10 pr-10 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                      className="w-full px-3 py-2 pl-10 pr-10 rounded-lg border border-gray-300 !bg-white !text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                       placeholder="Describe the pest or disease issue..."
                       disabled={isLoading}
                     />

@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../api';
 import seedsImage from '../assets/images/farm.jpg';
 
 export default function Login() {
@@ -68,7 +69,7 @@ export default function Login() {
         ? { email: formData.email, password: formData.password }
         : { name: formData.name, email: formData.email, password: formData.password, role: formData.role };
 
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -274,14 +275,19 @@ export default function Login() {
         /* Force inputs to ALWAYS stay gray (no hover color change) and remove any browser/Bootstrap glow/border */
         .ag-login .ag-login__input {
           background-color: #f3f4f6 !important; /* gray-100 */
+          color: #1f2937 !important; /* gray-800 - dark text for visibility */
           outline: none !important;
           box-shadow: none !important;
           border-color: transparent !important;
+        }
+        .ag-login .ag-login__input::placeholder {
+          color: #9ca3af !important; /* gray-400 */
         }
         .ag-login .ag-login__input:hover,
         .ag-login .ag-login__input:focus,
         .ag-login .ag-login__input:focus-visible {
           background-color: #f3f4f6 !important; /* keep same */
+          color: #111827 !important; /* gray-900 */
           outline: none !important;
           box-shadow: none !important;
           border-color: transparent !important;

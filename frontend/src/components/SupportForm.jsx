@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API_URL from "../api";
 import "./support.css";
 
 const Support = () => {
@@ -16,7 +17,7 @@ const Support = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/support/submit", {
+      const res = await fetch(`${API_URL}/api/support/submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

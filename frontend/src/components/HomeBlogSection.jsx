@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 import BlogCard from "./BlogCard";
 
 const HomeBlogSection = () => {
@@ -9,7 +10,7 @@ const HomeBlogSection = () => {
   useEffect(() => {
     const fetchRecentBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/blogs");
+        const res = await axios.get(`${API_URL}/api/blogs`);
         // backend already sorts by latest
         setBlogs(res.data.slice(0, 3));
       } catch (error) {

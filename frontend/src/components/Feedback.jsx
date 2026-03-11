@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../api";
 
 export default function Feedback() {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ export default function Feedback() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:5000/api/feedback/submit", {
+    await fetch(`${API_URL}/api/feedback/submit`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

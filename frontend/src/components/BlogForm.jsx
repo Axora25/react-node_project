@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Send, ArrowLeft, Loader2, Image as ImageIcon } from 'lucide-react';
+import API_URL from '../api';
 import './BlogForm.css';
 
 const BlogForm = () => {
@@ -38,7 +39,7 @@ const BlogForm = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/blogs', data, {
+      const response = await axios.post(`${API_URL}/api/blogs`, data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

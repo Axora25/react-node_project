@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../api';
 import { User, Mail, MapPin, Tablet, Edit2, Camera, Trash2, Home, LogOut, FileText, AlertTriangle } from 'lucide-react';
 
 export default function Profile() {
@@ -28,7 +29,7 @@ export default function Profile() {
             const token = localStorage.getItem('token');
             // For now, since backend isn't ready, we'll try to fetch from localStorage user data
             // and fallback to an API call when ready.
-            const response = await fetch('http://localhost:5000/api/users/profile', {
+            const response = await fetch(`${API_URL}/api/users/profile`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -76,7 +77,7 @@ export default function Profile() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/users/profile', {
+            const response = await fetch(`${API_URL}/api/users/profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ export default function Profile() {
         try {
             setSubmitting(true);
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/users/profile/image', {
+            const response = await fetch(`${API_URL}/api/users/profile/image`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -149,7 +150,7 @@ export default function Profile() {
     const getProfileImageUrl = () => {
         if (profileData.profileImage) {
             if (profileData.profileImage.startsWith('http')) return profileData.profileImage;
-            return `http://localhost:5000${profileData.profileImage}`;
+            return `${API_URL}${profileData.profileImage}`;
         }
         return "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; // Fallback placeholder
     };

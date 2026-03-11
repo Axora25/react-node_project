@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import API_URL from '../api';
 import irrigationImg from '../assets/images/irirgation.png';
 import tractorsImg from '../assets/images/autonomus_tractors.jpg';
 import renewableImg from '../assets/images/renewable_resoure.png';
@@ -7,7 +8,7 @@ import droneImg from '../assets/images/Drone.jpg';
 import verticalFarmingImg from '../assets/images/Vertical Farming Systems.png';
 import soilHealthImg from '../assets/images/soil health.jpg';
 
-const GEMINI_API_URL = 'http://localhost:5000/api/gemini';
+const GEMINI_API_URL = `${API_URL}/api/gemini`;
 
 // Technologies data
 const technologies = [
