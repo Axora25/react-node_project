@@ -1,4 +1,5 @@
 import React from 'react'
+import Snowfall from 'react-snowfall';
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -17,6 +18,7 @@ import HomeBlogSection from './components/HomeBlogSection'
 import SingleBlog from "./pages/SingleBlog"
 import BlogList from './components/BlogList'
 import Feedback from './components/Feedback'
+import Profile from "./pages/Profile";
 import FeedbackTestimonials from "./components/FeedbackTestimonials"
 import Footer from './components/Footer';
 import ProtectedRoute from "./components/ProtectedRoute"
@@ -27,7 +29,7 @@ function Home() {
   return (
     <>
       <Hero />
-
+      {/* <Snowfall color="#82C3D9" /> */}
       <section className="flex flex-col items-center px-4 md:px-0 bg-gray-950 text-white py-8">
         <div className="flex flex-col items-center mt-10 mb-8 text-center max-w-5xl font-monospace">
           <h1 className="text-4xl font-bold mb-4">Our Services</h1>
@@ -54,14 +56,14 @@ function Home() {
           <div className="flex justify-center gap-4 mt-6 mb-2">
             <button
               onClick={() => navigate("/write-blog")}
-              className="bg-lime-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg"
+              className="bg-lime-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg"
             >
               Write Your Own Blog
             </button>
 
             <button
               onClick={() => navigate("/blogs")}
-              className="bg-lime-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
+              className="bg-lime-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
             >
               Read More Blogs
             </button>
@@ -79,12 +81,21 @@ function Home() {
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* <Snowfall className="snowfall" color="#82C3D9" speed={[0.5, 2]} wind={[-1, 1]} radius={[0.5, 3]} /> */}
       <Navbar />
 
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/blog/:id" element={<SingleBlog />} />
@@ -152,12 +163,12 @@ function App() {
             </ProtectedRoute>
           }
         />
-      
+
         <Route
           path="/farm-tech"
           element={
             <ProtectedRoute>
-              <FarmTech  />
+              <FarmTech />
             </ProtectedRoute>
           }
         />

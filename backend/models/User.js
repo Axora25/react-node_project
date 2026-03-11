@@ -23,6 +23,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['farmer', 'admin'],
     default: 'farmer'
+  },
+  farmName: {
+    type: String,
+    trim: true
+  },
+  farmSize: {
+    type: Number
+  },
+  location: {
+    type: String,
+    trim: true
+  },
+  profileImage: {
+    type: String
   }
 }, {
   timestamps: true // Adds createdAt and updatedAt automatically

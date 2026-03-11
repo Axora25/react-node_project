@@ -58,8 +58,6 @@ const BlogForm = () => {
 
   return (
     <div className="blog-container">
-      {/* Overlay for better text contrast against the image */}
-      <div className="bg-overlay"></div>
 
       <div className="form-wrapper">
         <header className="form-header">

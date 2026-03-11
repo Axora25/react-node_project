@@ -1,0 +1,22 @@
+[
+  {
+    "crop": "Cucumber",
+    "nitrogen": 90,
+    "phosphorus": 40,
+    "potassium": 50,
+    "temperature": 24,
+    "humidity": 80,
+    "ph": 6.5,
+    "rainfall": 200
+  },
+  {
+    "crop": "Tomato",
+    "nitrogen": 100,
+    "phosphorus": 50,
+    "potassium": 60,
+    "temperature": 22,
+    "humidity": 70,
+    "ph": 6.8,
+    "rainfall": 150
+  }
+]

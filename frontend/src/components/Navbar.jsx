@@ -33,31 +33,24 @@ export default function Navbar() {
     window.addEventListener('storage', handleStorageChange);
     // Also check on focus in case of same-tab updates
     window.addEventListener('focus', handleStorageChange);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('focus', handleStorageChange);
     };
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setLoggedIn(false);
-    setUser(null);
-    window.location.href = '/';
-  };
 
   return (
     <header className="flex justify-between items-center bg-gray-950 h-14 sticky top-0 z-20 border-b-2 border-gray-900 px-4">
-      
+
       {/* LEFT: Logo + Name */}
       <div className="flex gap-2 items-center">
         <Link to="/" className="flex gap-2 items-center">
-          <img 
-            src={logoImage} 
-            alt="logo" 
-            className="h-10 w-10 rounded-full object-cover bg-white p-1" 
+          <img
+            src={logoImage}
+            alt="logo"
+            className="h-10 w-10 rounded-full object-cover bg-white p-1"
           />
           <h3 className="text-white text-lg">AgriGrow</h3>
         </Link>
@@ -68,15 +61,12 @@ export default function Navbar() {
         <Link to="/" className="hover:text-white">Home</Link>
         <Link to="/subsidies" className="hover:text-white">Subsidies</Link>
         <Link to="/blogs" className="hover:text-white">Blog</Link>
-        
-        
+
+
 
         {/* LOGIN / PROFILE LOGIC */}
         {loggedIn ? (
-          <>
-            {/* <span className="text-white">{user?.name}</span> */}
-            <button onClick={handleLogout} className="hover:text-white">Logout</button>
-          </>
+          <Link to="/profile" className="hover:text-white">Profile</Link>
         ) : (
           <Link to="/login" className="hover:text-white">Login</Link>
         )}

@@ -6,18 +6,18 @@
   --primary-hover: #14532d;
   --accent: #16a34a;
   
-  /* GLASS CHANGE: Highly transparent white for the "Blurred Grass" effect */
-  --bg-card: rgba(255, 255, 255, 0.15); 
+  /* GLASS CHANGE: Swapped for solid dark backgrounds */
+  --bg-card: #111827; 
   
-  /* Inputs stay solid white for contrast/readability */
-  --bg-input: #ffffff; 
-  --bg-input-hover: #f9fafb;
+  /* Inputs updated to dark theme */
+  --bg-input: #1f2937; 
+  --bg-input-hover: #374151;
   
-  --text-main: #0f172a; /* Darker Slate for better contrast on glass */
-  --text-muted: #334155; /* Darker gray */
-  --text-light: #64748b;
+  --text-main: #f3f4f6; /* White/Light Gray */
+  --text-muted: #9ca3af;
+  --text-light: #6b7280;
   
-  --border-light: rgba(255, 255, 255, 0.4); /* Glassy borders */
+  --border-light: rgba(255, 255, 255, 0.1); 
   --border-focus: #16a34a;
   
   --radius-xl: 24px;
@@ -47,11 +47,8 @@ body {
   justify-content: center;
   padding: 2rem 1rem;
   
-  /* The Farmer/Grass Background */
-  background-image: url("src/assets/images/imgF.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  /* The Dark Theme Background */
+  background-color: #020617;
 }
 
 /* Reduced overlay to let the grass colors shine through more */
@@ -74,16 +71,12 @@ body {
   
   background: var(--bg-card);
   
-  /* This creates the "Blurred Grass" texture */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.5); /* Highlight top edge */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+  /* Removed glass effect */
+  border: 1px solid var(--border-light);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
   
   border-radius: var(--radius-xl);
-  padding: 3.5rem;
+  padding: 1.25rem 1.75rem;
   animation: slideUp 0.7s var(--ease);
 }
 
@@ -95,7 +88,7 @@ body {
 /* Header */
 .form-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .header-badge {
@@ -115,15 +108,13 @@ body {
 .form-header h1 {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #1a2e05; /* Very dark green/black for contrast */
+  color: #ffffff; 
   margin: 0 0 0.75rem 0;
   letter-spacing: -0.03em;
-  /* Subtle shadow to lift text off the blurred grass */
-  text-shadow: 0 1px 1px rgba(255,255,255,0.4); 
 }
 
 .form-header p {
-  color: #1a2e05;
+  color: #9ca3af;
   font-weight: 500;
   font-size: 1.1rem;
   line-height: 1.6;
@@ -131,16 +122,15 @@ body {
 
 /* Form Groups */
 .form-group {
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.75rem;
 }
 
 label {
   display: block;
-  font-size: 0.9rem;
-  font-weight: 700; /* Bolder labels for glass bg */
-  color: #14532d; /* Dark Green */
-  margin-bottom: 0.5rem;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4ade80; /* Brighter Green for dark theme */
+  margin-bottom: 0.25rem;
 }
 
 /* Inputs & Textarea - Keep these solid or near-solid for readability */
@@ -150,18 +140,17 @@ textarea {
   padding: 14px 18px;
   font-size: 1rem;
   color: var(--text-main);
-  background: var(--bg-input); /* Solid white */
-  border: 1px solid rgba(255,255,255,0.6);
+  background: var(--bg-input);
+  border: 1px solid #374151;
   border-radius: var(--radius-lg);
   transition: all 0.2s var(--ease);
   font-family: inherit;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03); /* Subtle depth */
 }
 
 input[type="text"]:hover,
 textarea:hover {
   background: var(--bg-input-hover);
-  border-color: #fff;
+  border-color: #4b5563;
 }
 
 input[type="text"]:focus,
@@ -185,10 +174,10 @@ textarea {
 
 .input-card-label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #3f6212; /* Mossy green */
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.2rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -203,7 +192,7 @@ textarea {
   border: 2px dashed rgba(22, 163, 74, 0.4); /* Green dash */
   border-radius: var(--radius-lg);
   cursor: pointer;
-  background: rgba(255,255,255,0.8); /* Semi-transparent white */
+  background: #111827; 
   transition: all 0.2s var(--ease);
   height: 52px;
 }
@@ -250,7 +239,7 @@ textarea {
   height: 1px;
   /* Green gradient divider */
   background: linear-gradient(to right, transparent, rgba(22, 163, 74, 0.5), transparent);
-  margin: 2.5rem 0;
+  margin: 1rem 0;
 }
 
 /* Buttons */
@@ -276,9 +265,9 @@ button {
 
 /* Secondary Button */
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.5); /* Glassy button */
-  color: #14532d;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
 }
 
 .btn-secondary:hover {
